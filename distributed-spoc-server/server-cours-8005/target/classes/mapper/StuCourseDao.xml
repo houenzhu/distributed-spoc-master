@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhe.spoc.distributed.mapper.StuCourseMapper">
+
+    <select id="couseList" resultType="com.zhe.common.entity.CoursEntity">
+        select * from cours where cou_id in (SELECT cou_id from stu_cou where stu_id = #{stuId})
+    </select>
+    <select id="couseList_1" resultType="com.zhe.common.entity.CoursEntity">
+        SELECT * FROM cours where cou_id in (SELECT cou_id FROM cou_class where class_id = #{classId})
+    </select>
+    <select id="OptionalCourses" resultType="com.zhe.common.entity.CoursEntity">
+        SELECT * FROM cours where deleted = 0
+    </select>
+    <select id="findByCourse" resultType="com.zhe.common.entity.CoursEntity">
+        SELECT * FROM cours where deleted = 0
+                <choose>
+                      <when test="couName != null and couName != ''">
+                          AND cou_name like ('%' #{couName} '%')
+                      </when>
+                      <when test="teaId != null and teaId != ''">
+                          AND tea_id = #{teaId}
+                      </when>
+                      <when test="couPrice != null and couPrice != ''">
+                          AND cou_price = #{couPrice}
+                      </when>
+                      <when test="couCataNum != null and couCataNum != ''">
+                          AND cou_cata_num = #{couCataNum}
+                      </when>
+                      <when test="couType != null and couType != ''">
+                          AND cou_type = #{couType}
+                      </when>
+                </choose>
+    </select>
+    <select id="findByOneCourse" resultType="com.zhe.common.entity.CoursEntity">
+        SELECT * FROM cours where cou_id = #{couId}
+    </select>
+
+    <select id="Recommend" resultType="com.zhe.common.entity.CourseInteractionEntity">
+        SELECT * FROM course_interaction where cou_id = #{couId} AND recommend = 1
+    </select>
+
+    <select id="Collect" resultType="com.zhe.common.entity.CourseInteractionEntity">
+        SELECT * FROM course_interaction where cou_id = #{couId} AND collect = 1
+    </select>
+</mapper>

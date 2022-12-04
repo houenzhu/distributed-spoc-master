@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhe.spoc.distributed.mapper.ClassMapper">
+    <insert id="insertClass" parameterType="com.zhe.common.entity.ClassEntity">
+        INSERT INTO class (class_id, class_name, tea_id, class_student_num)
+        VALUES (#{classId}, #{className}, #{teaId}, #{classStudentNum})
+    </insert>
+
+    <insert id="InsertOneStu" parameterType="com.zhe.common.entity.StuClassEntity">
+        INSERT INTO stu_class (stu_id, class_id) VALUES (#{stuId}, #{classId})
+    </insert>
+    <insert id="InsertMoreStu">
+        INSERT INTO stu_class
+            (stu_id, class_id)
+        VALUES
+            <foreach collection="list" item="item" separator=",">
+                (#{item.stuId}, #{item.classId})
+            </foreach>
+    </insert>
+
+    <update id="StuNum" parameterType="com.zhe.common.entity.CoursEntity">
+        UPDATE class set class_student_num = #{classStudentNum} where class_id = #{classId}
+    </update>
+    <update id="updateCouRecoNum">
+        UPDATE cours set cou_coll_num = #{couCollNum}, cou_reco_num = #{couRecoNum} where cou_id = #{couId}
+    </update>
+
+    <update id="deleteClass">
+        UPDATE class set deleted = 1 where class_id = #{classId}
+    </update>
+    <update id="updateClass">
+        UPDATE class set class_name = #{className} where class_id = #{classId}
+    </update>
+    <delete id="RemoveOneCourse">
+        DELETE FROM cou_class where class_id = #{classId} AND cou_id = #{couId}
+    </delete>
+
+    <select id="getAllClassInPage_1" resultType="com.zhe.common.entity.ClassEntity">
+        SELECT * FROM class where deleted = 0 LIMIT #{begin}, #{count}
+    </select>
+
+    <select id="TeaClass" resultType="com.zhe.common.entity.ClassEntity">
+        SELECT * FROM class where deleted = 0 AND tea_id = #{teaId} LIMIT #{begin}, #{count}
+    </select>
+    <select id="TheClassAllStudent" resultType="com.zhe.common.entity.StudentEntity">
+        SELECT student.stu_id, stu_name, stu_study_time, stu_score FROM student
+            LEFT JOIN stu_class as sc ON student.stu_id = sc.stu_id
+            LEFT JOIN class ON class.class_id = sc.class_id
+                                                                   WHERE class.class_id = #{classId}
+                                                                     AND sc.deleted = 0
+                                                                     LIMIT #{pageNum}, #{pageSize}
+    </select>
+    <select id="getClassName" resultType="com.zhe.common.entity.ClassEntity">
+        SELECT * FROM class where class_name like CONCAT('%',#{className},'%') AND deleted = 0 LIMIT #{pageNum}, #{pageSize}
+    </select>
+    <select id="getClassNameNum" resultType="java.lang.Integer">
+        SELECT COUNT(class_name) FROM class where class_name like CONCAT('%',#{className},'%') AND deleted = 0
+    </select>
+    <select id="getTheAllStudentNum" resultType="java.lang.Integer">
+        SELECT COUNT(stu_id) FROM stu_class where class_id = #{classId} AND deleted = 0
+    </select>
+</mapper>

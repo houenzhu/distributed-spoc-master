@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhe.spoc.distributed.mapper.StuPracticeMapper">
+
+    <delete id="deleteMyPractice">
+        DELETE from stu_practice where stu_id = #{stuId} AND pra_id = #{praId}
+    </delete>
+
+    <select id="myPractice" resultType="com.zhe.common.entity.PracticeEntity">
+        SELECT p.pra_id, pra_time, pra_name, pra_site, cou_id, pra_main, tea_id FROM practice AS p
+            LEFT JOIN stu_practice AS sp ON sp.pra_id = p.pra_id where sp.pra_id in
+                                                                       (SELECT pra_id FROM stu_practice where stu_id = #{stuId})
+    </select>
+</mapper>

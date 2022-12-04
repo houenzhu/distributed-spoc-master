@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhe.spoc.distributed.mapper.QuestionMapper">
+
+    <resultMap id="BaseResultMap" type="com.zhe.common.entity.TopicQuestionEntity">
+        <id column="quest_id" property="questId" jdbcType="BIGINT"/>
+        <result column="u_id" property="uId" jdbcType="INTEGER"/>
+        <result column="question_title" property="questionTitle" jdbcType="VARCHAR"/>
+        <result column="problem_main" property="problemMain" jdbcType="VARCHAR"/>
+        <result column="problem_time" property="problemTime" jdbcType="TIMESTAMP"/>
+        <result column="is_question" property="isQuestion" jdbcType="TINYINT"/>
+    </resultMap>
+    <insert id="InsertQuestion" parameterType="com.zhe.common.entity.TopicQuestionEntity">
+        INSERT INTO topic_question(quest_id,u_id, question_title, problem_main) VALUES(#{questId}, #{uId}, #{questionTitle}, #{problemMain})
+    </insert>
+    <select id="MyQuestion" resultMap="BaseResultMap">
+        SELECT quest_id, question_title, problem_main, problem_time FROM topic_question where u_id = #{userId}
+    </select>
+    <select id="Question" resultMap="BaseResultMap">
+        SELECT * FROM topic_question where quest_id = #{questId}
+    </select>
+    <select id="AllQuestion" resultType="com.zhe.common.entity.TopicQuestionEntity">
+        SELECT quest_id, u_id, question_title, problem_main, problem_time, photo FROM topic_question
+    </select>
+    <select id="QuestionDetails" resultType="com.zhe.common.entity.TopicQuestionEntity">
+        SELECT quest_id, u_id, question_title, problem_main, problem_time, photo FROM topic_question where quest_id = #{questId}
+    </select>
+</mapper>

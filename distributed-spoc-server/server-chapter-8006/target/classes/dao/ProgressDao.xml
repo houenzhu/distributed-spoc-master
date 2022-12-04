@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhe.spoc.distributed.mapper.ProgressMapper">
+    <insert id="InsertStudentProgress">
+        INSERT INTO learning_progress (stu_id, cou_id, class_id, cha_id, time)
+        VALUES(#{stuId}, #{couId}, #{classId}, #{chaId}, #{time})
+    </insert>
+    <update id="addScoreStuTime">
+        UPDATE student SET stu_score = #{stuScore} , stu_study_time = #{stuStudyTime} where stu_id = #{stuId}
+    </update>
+
+    <update id="UpdateStudentProgress">
+        UPDATE learning_progress set time = #{time} WHERE stu_id = #{stuId}
+                                                      AND cou_id = #{couId}
+                                                      AND class_id = #{classId}
+                                                      AND cha_id = #{chaId}
+    </update>
+
+    <select id="checkStudent" resultType="java.lang.Integer">
+        SELECT time FROM learning_progress where stu_id = #{stuId} AND class_id = #{classId} AND cha_id = #{chaId}
+    </select>
+    <select id="sec_to_time" resultType="java.lang.String">
+        select SEC_TO_TIME(#{SecToTime})
+    </select>
+    <select id="progressTime" resultType="java.lang.String">
+        SELECT time FROM stu_cou_progress where stu_id = #{stuId} AND cou_id = #{couId} AND cha_id = #{chaId}
+    </select>
+    <select id="StudentCoursePercent" resultType="java.lang.Integer">
+        SELECT sum(time) FROM learning_progress where cou_id = #{couId} AND class_id = #{classId} AND stu_id = #{stuId}
+    </select>
+    <select id="ChapterTime" resultType="java.lang.Integer">
+        SELECT cha_time FROM chapter where cha_id = #{chaId}
+    </select>
+
+</mapper>

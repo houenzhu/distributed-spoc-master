@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhe.spoc.distributed.mapper.OrderShopMapper">
+
+    <insert id="insertOrder">
+        INSERT INTO order_shop (id, stu_id,cost, cou_id) VALUES(#{id}, #{stuId}, #{cost}, #{couId})
+    </insert>
+    <select id="myOrderList" resultType="com.zhe.common.entity.OrderShopEntity">
+        SELECT cost,cou_id,buy_time FROM order_shop where stu_id = #{stuId}
+    </select>
+    <select id="selectThisCourse" resultType="java.lang.Integer">
+        SELECT COUNT(cou_id) FROM order_shop where stu_id = #{stuId} AND cou_id = #{couId}
+    </select>
+</mapper>

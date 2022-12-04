@@ -1,0 +1,3 @@
+com\zhe\spoc\distributed\client\ServerUserClient.class
+com\zhe\spoc\distributed\filter\FeignOauth2RequestInterceptor.class
+com\zhe\spoc\distributed\config\DefaultFeignConfiguration.class

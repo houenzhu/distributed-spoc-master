@@ -1,0 +1,5 @@
+com\zhe\spoc\distributed\gateway\GatewayApplication.class
+com\zhe\spoc\distributed\gateway\config\GatewayCorsConfiguration.class
+com\zhe\spoc\distributed\gateway\filter\GatewayFilterConfig.class
+com\zhe\spoc\distributed\gateway\security\config\SecurityConfig.class
+com\zhe\spoc\distributed\gateway\security\config\TokenConfig.class

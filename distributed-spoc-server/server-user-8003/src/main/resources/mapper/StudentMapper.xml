@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhe.spoc.distributed.userserver.dao.StudentDao">
+    <insert id="insertStudentSedule">
+        INSERT INTO student
+            (stu_id, stu_name)
+        VALUES
+            <foreach collection="studentList" item="item" separator=", ">
+                (#{item.id}, #{item.fullname})
+            </foreach>
+    </insert>
+    <update id="updateScore">
+        UPDATE student set stu_score = stu_score + #{score} where stu_id = #{stuId}
+    </update>
+
+    <select id="StudentInfo" resultType="com.zhe.common.entity.StudentEntity">
+        select * from student where stu_id = #{stuId}
+    </select>
+    <select id="getStuUserInfo" resultType="com.zhe.common.entity.UserEntity">
+        select * from t_user where id = #{stuId}
+    </select>
+    <select id="StudentList" resultType="com.zhe.common.entity.StudentEntity">
+
+    </select>
+
+    <select id="getAllStudent" resultType="java.lang.Integer">
+        SELECT stu_id FROM student where
+                                       <foreach collection="stuId" item="item" separator=" AND ">
+                                            stu_id &lt;&gt; #{item}
+                                       </foreach>
+    </select>
+    <select id="StudentClass" resultType="java.lang.Integer">
+        SELECT stu_id FROM stu_class where deleted = 0
+    </select>
+</mapper>

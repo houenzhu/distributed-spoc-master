@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhe.spoc.distributed.userserver.dao.SignMapper">
+
+    <insert id="studentSign">
+        INSERT INTO tb_sign (user_id, year, month) VALUES (#{userId}, #{year}, #{month})
+    </insert>
+    <select id="AllCount" resultType="java.lang.Integer">
+        SELECT COUNT(id) FROM tb_sign where user_id = #{userId}
+    </select>
+</mapper>

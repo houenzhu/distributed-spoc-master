@@ -1,0 +1,92 @@
+server:
+  port: 10010
+spring:
+  application:
+    name: gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+    gateway:
+      routes:
+        - id: user-server
+          uri: lb://user-server
+          predicates:
+            - Path=/api/personal/**
+          filters:
+            - RewritePath=/api/personal/(?<segment>.*),/$\{segment}
+
+        - id: uaa-server
+          uri: lb://uaa-server
+          predicates:
+            - Path=/api/uaa/**
+          filters:
+            - RewritePath=/api/uaa/(?<segment>.*),/$\{segment}
+
+        - id: class-server
+          uri: lb://class-server
+          predicates:
+            - Path=/api/class/**
+          filters:
+            - RewritePath=/api/class/(?<segment>.*),/$\{segment}
+
+        - id: cours-server
+          uri: lb://cours-server
+          predicates:
+            - Path=/api/cours/**
+          filters:
+            - RewritePath=/api/cours/(?<segment>.*),/$\{segment}
+
+        - id: chapter-server
+          uri: lb://chapter-server
+          predicates:
+            - Path=/api/chapter/**
+          filters:
+            - RewritePath=/api/chapter/(?<segment>.*),/$\{segment}
+
+        - id: practice-server
+          uri:
+            lb://practice-server
+          predicates:
+            - Path=/api/practice/**
+          filters:
+            - RewritePath=/api/practice/(?<segment>.*),/$\{segment}
+
+        - id: information-server
+          uri:
+            lb://information-server
+          predicates:
+            - Path=/api/information/**
+          filters:
+            - RewritePath=/api/information/(?<segment>.*),/$\{segment}
+
+        - id: comment-server
+          uri:
+            lb://comment-server
+          predicates:
+            - Path=/api/comment/**
+          filters:
+            - RewritePath=/api/comment/(?<segment>.*),/$\{segment}
+
+        - id: shopcar-server
+          uri:
+            lb://shopcar-server
+          predicates:
+            - Path=/api/shopcar/**
+          filters:
+            - RewritePath=/api/shopcar/(?<segment>.*),/$\{segment}
+
+        - id: questionanswer-server
+          uri:
+            lb://questionanswer-server
+          predicates:
+            - Path=/api/questionanswer/**
+          filters:
+            - RewritePath=/api/questionanswer/(?<segment>.*),/$\{segment}
+secure:
+  ignore:
+    urls: #配置白名单路径
+      - "/actuator/**"
+      - "/auth/oauth/token"
+      - "/api/cours/file/**"
+      - "/instances/**"

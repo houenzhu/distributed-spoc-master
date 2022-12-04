@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhe.spoc.distributed.mapper.StuCouProgressMapper">
+
+    <select id="HaveProgress" resultType="java.lang.Integer">
+        SELECT COUNT(time) FROM stu_cou_progress where stu_id = #{stuId} AND cou_id = #{couId} AND cha_id = #{chaId}
+    </select>
+    <select id="ProgressId" resultType="java.lang.Integer">
+        SELECT id from stu_cou_progress where stu_id = #{stuId} AND cou_id = #{couId} AND cha_id = #{chaId}
+    </select>
+</mapper>

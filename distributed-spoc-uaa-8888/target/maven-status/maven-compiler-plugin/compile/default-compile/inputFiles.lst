@@ -1,0 +1,16 @@
+F:\IDEAText\springcloud-learning-master\distributed-spoc-master\distributed-spoc-uaa-8000\src\main\java\com\zhe\spoc\distributed\uaa\mapper\UserMapper.java
+F:\IDEAText\springcloud-learning-master\distributed-spoc-master\distributed-spoc-uaa-8000\src\main\java\com\zhe\spoc\distributed\uaa\security\config\TokenConfig.java
+F:\IDEAText\springcloud-learning-master\distributed-spoc-master\distributed-spoc-uaa-8000\src\main\java\com\zhe\spoc\distributed\uaa\service\PermissionService.java
+F:\IDEAText\springcloud-learning-master\distributed-spoc-master\distributed-spoc-uaa-8000\src\main\java\com\zhe\spoc\distributed\uaa\security\exception\CustomOauthExceptionSerializer.java
+F:\IDEAText\springcloud-learning-master\distributed-spoc-master\distributed-spoc-uaa-8000\src\main\java\com\zhe\spoc\distributed\uaa\mapper\PermissionMapper.java
+F:\IDEAText\springcloud-learning-master\distributed-spoc-master\distributed-spoc-uaa-8000\src\main\java\com\zhe\spoc\distributed\uaa\security\handler\SuccessHandler.java
+F:\IDEAText\springcloud-learning-master\distributed-spoc-master\distributed-spoc-uaa-8000\src\main\java\com\zhe\spoc\distributed\uaa\security\config\WebSecurityConfig.java
+F:\IDEAText\springcloud-learning-master\distributed-spoc-master\distributed-spoc-uaa-8000\src\main\java\com\zhe\spoc\distributed\uaa\security\handler\LogoutHandler.java
+F:\IDEAText\springcloud-learning-master\distributed-spoc-master\distributed-spoc-uaa-8000\src\main\java\com\zhe\spoc\distributed\uaa\service\UserService.java
+F:\IDEAText\springcloud-learning-master\distributed-spoc-master\distributed-spoc-uaa-8000\src\main\java\com\zhe\spoc\distributed\uaa\security\config\AuthorizationServer.java
+F:\IDEAText\springcloud-learning-master\distributed-spoc-master\distributed-spoc-uaa-8000\src\main\java\com\zhe\spoc\distributed\uaa\security\service\SecurityUserDetailService.java
+F:\IDEAText\springcloud-learning-master\distributed-spoc-master\distributed-spoc-uaa-8000\src\main\java\com\zhe\spoc\distributed\uaa\security\config\RedisRepositoryConfig.java
+F:\IDEAText\springcloud-learning-master\distributed-spoc-master\distributed-spoc-uaa-8000\src\main\java\com\zhe\spoc\distributed\uaa\security\handler\FailureHandler.java
+F:\IDEAText\springcloud-learning-master\distributed-spoc-master\distributed-spoc-uaa-8000\src\main\java\com\zhe\spoc\distributed\uaa\security\exception\WebResponseTranslator.java
+F:\IDEAText\springcloud-learning-master\distributed-spoc-master\distributed-spoc-uaa-8000\src\main\java\com\zhe\spoc\distributed\uaa\security\exception\CustomOauthException.java
+F:\IDEAText\springcloud-learning-master\distributed-spoc-master\distributed-spoc-uaa-8000\src\main\java\com\zhe\spoc\distributed\uaa\UaaApplication.java

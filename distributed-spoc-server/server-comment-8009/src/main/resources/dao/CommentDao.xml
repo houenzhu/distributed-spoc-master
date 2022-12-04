@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhe.spoc.distributed.mapper.CommentMapper">
+    <insert id="InsertComment" parameterType="com.zhe.common.entity.CommentEntity">
+        INSERT INTO c_comment (c_id, c_content, info_id, u_id, role)
+        VALUES(#{ccId}, #{commentContent}, #{infoId}, #{uuId}, #{role})
+    </insert>
+    <select id="MyComment" resultType="com.zhe.common.entity.CommentEntity">
+        SELECT quest_id, question_titile, quest_main, creat_time, is_question FROM topic_question where u_id = #{uuid}
+    </select>
+</mapper>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhe.spoc.distributed.mapper.ShopCarMapper">
+
+    <insert id="addShopCar">
+        INSERT INTO stu_cou_cart (stu_id, cou_id) VALUES (#{stuId}, #{couId})
+    </insert>
+    <insert id="buyOneCourse">
+        INSERT INTO stu_cou (stu_id, cou_id) VALUES (#{stuId}, #{couId})
+    </insert>
+    <!--批量插入语句-->
+    <insert id="BuyMoreCourse">
+        INSERT INTO order_shop (id, stu_id,cost, cou_id)
+        VALUES
+            <foreach collection="list" item="item" separator=",">
+                (#{item.id}, #{item.stuId}, #{item.cost}, #{item.couId})
+            </foreach>
+    </insert>
+    <insert id="insertMoreMyCourse">
+        INSERT INTO stu_cou
+            (stu_id, cou_id)
+        VALUES
+        <foreach collection="stuCourseEntities" item="item" separator=",">
+            (#{item.stuId}, #{item.couId})
+        </foreach>
+    </insert>
+    <update id="updateScore">
+        UPDATE student set stu_score = #{stuScore} where stu_id = #{stuId}
+    </update>
+    <delete id="deleteByCouId">
+        DELETE from stu_cou_cart where cou_id = #{couId} AND stu_id = #{stuId}
+    </delete>
+    <delete id="deleteShopCar">
+        DELETE FROM stu_cou_cart where id IN(
+        <foreach collection="list" item="item" separator=",">
+            #{item.id}
+        </foreach>
+        )
+    </delete>
+
+    <select id="myShopCar" resultType="com.zhe.common.entity.CoursEntity">
+        Select * from cours where cou_id in (SELECT cou_id from stu_cou_cart where stu_id = #{stuId})
+    </select>
+</mapper>

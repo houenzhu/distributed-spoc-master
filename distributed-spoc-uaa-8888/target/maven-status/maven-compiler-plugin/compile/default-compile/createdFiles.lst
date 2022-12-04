@@ -1,0 +1,16 @@
+com\zhe\spoc\distributed\uaa\security\handler\SuccessHandler.class
+com\zhe\spoc\distributed\uaa\security\config\TokenConfig.class
+com\zhe\spoc\distributed\uaa\security\handler\LogoutHandler.class
+com\zhe\spoc\distributed\uaa\security\config\AuthorizationServer.class
+com\zhe\spoc\distributed\uaa\security\exception\WebResponseTranslator.class
+com\zhe\spoc\distributed\uaa\service\PermissionService.class
+com\zhe\spoc\distributed\uaa\mapper\PermissionMapper.class
+com\zhe\spoc\distributed\uaa\security\config\RedisRepositoryConfig.class
+com\zhe\spoc\distributed\uaa\service\UserService.class
+com\zhe\spoc\distributed\uaa\UaaApplication.class
+com\zhe\spoc\distributed\uaa\security\exception\CustomOauthExceptionSerializer.class
+com\zhe\spoc\distributed\uaa\security\exception\CustomOauthException.class
+com\zhe\spoc\distributed\uaa\mapper\UserMapper.class
+com\zhe\spoc\distributed\uaa\security\handler\FailureHandler.class
+com\zhe\spoc\distributed\uaa\security\service\SecurityUserDetailService.class
+com\zhe\spoc\distributed\uaa\security\config\WebSecurityConfig.class

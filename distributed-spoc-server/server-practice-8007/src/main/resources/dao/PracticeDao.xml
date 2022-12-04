@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhe.spoc.distributed.mapper.PracticeMapper">
+    <insert id="insertPractice">
+        INSERT INTO practice
+            (pra_id, pra_name, pra_site, pra_main, tea_id, cou_id, pra_time, end_time)
+        VALUES
+            (#{praId}, #{praName}, #{praSite},#{praMain}, #{teaId}, #{couId}, #{praTime}, #{endTime})
+    </insert>
+    <insert id="insertStuPractice">
+        INSERT INTO stu_practice(stu_id, pra_id) VALUES(#{stuId}, #{praId})
+    </insert>
+    <update id="removePractice">
+        UPDATE practice set is_deleted = 1 where pra_id = #{praId}
+    </update>
+    <update id="updateStatus">
+        UPDATE practice set is_begin = #{isBegin} where pra_id = #{praId}
+    </update>
+    <update id="updatePractice">
+        UPDATE practice set pra_name = #{praName} ,pra_time = #{praTime}, pra_site = #{praSite}, pra_main = #{praMain}, cou_id = #{couId},
+                            end_time = #{endTime} where pra_id = #{praId}
+    </update>
+    <select id="practiceList" resultType="com.zhe.common.entity.PracticeEntity">
+        SELECT * FROM practice where tea_id = #{teaId} AND is_deleted = 0 LIMIT #{begin}, #{count}
+    </select>
+    <select id="practiceListByName" resultType="com.zhe.common.entity.PracticeEntity">
+        SELECT * FROM practice where tea_id = #{teaId} AND pra_name AND is_deleted = 0 LIKE CONCAT('%',#{praName},'%') LIMIT #{pageNum}, #{pageSize}
+    </select>
+    <select id="practiceListById" resultType="com.zhe.common.entity.PracticeEntity">
+        SELECT * FROM practice where tea_id = #{teaId} AND pra_id = #{praId} AND is_deleted = 0
+    </select>
+    <select id="checkPractice" resultType="java.lang.Integer">
+        SELECT count(id) from stu_practice where stu_id = #{stuId} AND pra_id = #{praId}
+    </select>
+    <select id="SelectAllPractice" resultType="com.zhe.common.entity.PracticeEntity">
+        SELECT pra_id, pra_time, pra_name, pra_site, cou_id, pra_main, tea_id from practice where is_deleted = 0
+    </select>
+    <select id="SelectAllPracticeInPage" resultType="com.zhe.common.entity.PracticeEntity">
+        SELECT * FROM practice where is_deleted = 0 limit #{begin}, #{count}
+    </select>
+    <select id="MyPracticeCount" resultType="java.lang.Integer">
+        SELECT COUNT(pra_id) FROM practice where is_deleted = 0 AND tea_id = #{teaId}
+    </select>
+    <select id="PracticeNum" resultType="java.lang.Integer">
+        SELECT COUNT(pra_id) FROM practice where is_deleted = 0
+    </select>
+
+    <select id="myPracticeByNameNum" resultType="java.lang.Integer">
+        SELECT COUNT(pra_id) FROM practice where pra_name LIKE CONCAT('%',#{praName},'%') AND is_deleted = 0 AND tea_id = #{teaId}
+    </select>
+
+    <select id="myPracticeByIdNum" resultType="java.lang.Integer">
+        SELECT COUNT(pra_id) FROM practice where pra_id = #{praId} AND is_deleted = 0 AND tea_id = #{teaId}
+    </select>
+
+    <select id="AllpracticeListByName" resultType="com.zhe.common.entity.PracticeEntity">
+        SELECT * FROM practice where pra_name LIKE CONCAT('%',#{praName},'%') AND is_deleted = 0 LIMIT #{pageNum}, #{pageSize}
+    </select>
+
+    <select id="PracticeByNameNum" resultType="java.lang.Integer">
+        SELECT COUNT(pra_id) FROM practice where pra_name LIKE CONCAT('%',#{praName},'%') AND is_deleted = 0
+    </select>
+
+    <select id="PracticeByIdNum" resultType="java.lang.Integer">
+        SELECT COUNT(pra_id) FROM practice where pra_id = #{praId} AND is_deleted = 0
+    </select>
+    <select id="practiceById" resultType="com.zhe.common.entity.PracticeEntity">
+        SELECT * FROM practice where pra_id = #{praId} AND is_deleted = 0
+    </select>
+</mapper>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhe.spoc.distributed.mapper.AnswerMapper">
+
+    <insert id="insertAnswer">
+        INSERT INTO answer(id, u_id, answer_content, tq_id) VALUES(#{id}, #{uId}, #{answerContent}, #{tqId})
+    </insert>
+
+    <update id="updateAdopt">
+        UPDATE answer set is_select = #{isSelect} where id = #{id} AND tq_id in
+        (select quest_id from topic_question where quest_id = #{questId} AND u_id = #{uId})
+    </update>
+    <select id="myAnswer" resultType="com.zhe.common.entity.AnswerEntity">
+        SELECT * FROM answer where u_id = #{uId}
+    </select>
+    <select id="AllAnswerNum" resultType="java.lang.Integer">
+        SELECT COUNT(id) FROM answer where tq_id = #{tqId}
+    </select>
+    <select id="AnswerByQuestId" resultType="com.zhe.common.dto.AnswerDTO">
+        SELECT u_id, answer_content, create_time, is_select, photo FROM answer where tq_id = #{tqId}
+    </select>
+</mapper>

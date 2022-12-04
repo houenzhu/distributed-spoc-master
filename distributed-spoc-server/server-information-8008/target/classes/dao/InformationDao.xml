@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhe.spoc.distributed.mapper.InformationMapper">
+
+    <insert id="InsertInformation">
+        INSERT INTO information(info_id,info_title,info_main,info_author,tea_id)
+        VALUES(#{infoId}, #{infoTitle}, #{infoMain}, #{infoAuthor}, #{teaId})
+    </insert>
+    <insert id="insertCommentLike">
+        INSERT INTO comment_like (user_id, comment_id, is_like) VALUES (#{userId}, #{commentId}, #{isLike})
+    </insert>
+    <update id="UpdateInformation">
+        UPDATE information set info_title = #{infoTitle}, info_main = #{infoMain} WHERE info_id = #{infoId}
+    </update>
+    <update id="likeCommentInInformation">
+        UPDATE c_comment set c_like = c_like + 1 where c_id = #{commentId}
+    </update>
+    <update id="dislikeCommentInInformation">
+        UPDATE c_comment set c_like = c_like - 1 where c_id = #{commentId}
+    </update>
+    <update id="updateCommentLike">
+        UPDATE comment_like SET is_like = #{isLike} WHERE user_id = #{userId} AND comment_id = #{commentId}
+    </update>
+    <delete id="DeleteInformation">
+        DELETE from information where info_id = #{infoId}
+    </delete>
+    <select id="allInformation" resultType="com.zhe.common.entity.InformationEntity">
+        SELECT * FROM information
+    </select>
+    <select id="SelectInfoById" resultType="com.zhe.common.entity.InformationEntity">
+        SELECT * FROM information where tea_id in (SELECT id from t_user where id = #{teaId}) AND info_id = #{infoId}
+    </select>
+    <select id="SelectInfoByName" resultType="com.zhe.common.entity.InformationEntity">
+        SELECT * FROM information where tea_id in (SELECT id from t_user where id = #{teaId}) AND info_title LIKE CONCAT('%',#{infoTitle},'%')
+    </select>
+    <select id="allComment" resultType="com.zhe.common.dto.CommentDTO">
+        SELECT c_id, c_content, c_data, u_id, c_like FROM c_comment where info_id = #{infoId}
+    </select>
+    <select id="getCommentNum" resultType="java.lang.Integer">
+        SELECT COUNT(c_content) FROM c_comment where info_id = #{infoId}
+    </select>
+    <select id="InfoDetail" resultType="com.zhe.common.dto.InformationDTO">
+        SELECT info_id, info_title, info_main, info_author, info_data, info_like, tea_id, photo FROM information where info_id = #{infoId}
+    </select>
+    <select id="InformationByAuthName" resultType="com.zhe.common.entity.InformationEntity">
+        SELECT * FROM information where info_author LIKE CONCAT('%',#{authName},'%')
+    </select>
+    <select id="commentLikes" resultType="java.lang.Integer">
+        SELECT SUM(c_like) FROM c_comment where info_id = #{infoId}
+    </select>
+    <select id="selectCommentLike" resultType="java.lang.Integer">
+        SELECT COUNT(id) FROM comment_like where user_id = #{userId} AND comment_id = #{commentId}
+    </select>
+    <select id="selectCommentIsLike" resultType="java.lang.Integer">
+        SELECT COUNT(id) FROM comment_like where user_id = #{userId} AND comment_id = #{commentId} AND is_like = 1
+    </select>
+    <select id="getCommentLikeDetails" resultType="java.lang.Integer">
+        SELECT is_like FROM comment_like WHERE comment_id = #{commentId} AND user_id = #{userId}
+    </select>
+    <select id="getCommentLike" resultType="java.lang.Integer">
+        SELECT c_like FROM c_comment where c_id = #{commentId}
+    </select>
+
+</mapper>

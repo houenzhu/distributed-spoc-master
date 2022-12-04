@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhe.spoc.distributed.userserver.dao.UserDao">
+    <insert id="InsertMoreUser">
+        INSERT INTO t_user
+        (username, password, fullname, phone)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.username}, #{item.password}, #{item.fullname}, #{item.phone})
+        </foreach>
+    </insert>
+    <insert id="insertStu">
+        INSERT INTO t_user_role
+            (user_id, role_id)
+        VALUES
+            <foreach collection="userRoleEntities" item="item" separator=",">
+                (#{item}, 2)
+            </foreach>
+
+    </insert>
+    <update id="updatePhoto">
+        UPDATE t_user SET photo = #{photo} where id = #{id}
+    </update>
+
+    <select id="findById" resultType="com.zhe.common.entity.UserEntity">
+        SELECT fullname from t_user where id = #{teaId}
+    </select>
+    <select id="getTrueName" resultType="com.zhe.common.dto.UserDto">
+        SELECT fullname from t_user where id = #{userId}
+    </select>
+    <select id="allTea" resultType="com.zhe.common.entity.TeacherEntity">
+        SELECT id, tea_id, tea_name FROM teacher
+    </select>
+    <select id="getAllStuId" resultType="java.lang.Integer">
+        SELECT user_id FROM t_user_role
+    </select>
+    <select id="getAllUserId" resultType="java.lang.Integer">
+        SELECT id FROM t_user WHERE
+                                  <foreach collection="userId" item="item" separator=" AND ">
+                                       id &lt;&gt; #{item}
+                                  </foreach>
+    </select>
+    <select id="getAllUserInfo" resultType="com.zhe.common.entity.UserEntity">
+        SELECT id, fullname FROM t_user WHERE
+        <foreach collection="userId" item="item" separator=" AND ">
+            id &lt;&gt; #{item}
+        </foreach>
+    </select>
+</mapper>

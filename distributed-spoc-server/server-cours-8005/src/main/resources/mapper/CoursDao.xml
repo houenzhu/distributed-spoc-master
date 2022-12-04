@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhe.spoc.distributed.mapper.CoursMapper">
+    <insert id="InsertCours" parameterType="com.zhe.common.entity.CoursEntity">
+        INSERT INTO cours (cou_id,cou_name, cou_introduction, cou_type, tea_id, cou_price,cou_chile_type, cou_cata_num, photo)
+        VALUES(#{couId}, #{couName}, #{couIntroduction}, #{couType}, #{teaId}, #{couPrice},#{couChileType}, #{couCataNum}, #{photo})
+    </insert>
+    <insert id="InsertMoreCoursClass">
+        INSERT INTO cou_class (cou_id, class_id)
+        VALUES
+            <foreach collection="list" item="item" separator=",">
+                (#{item.couId}, #{item.classId})
+            </foreach>
+    </insert>
+
+    <update id="updateCours" parameterType="com.zhe.common.entity.CoursEntity">
+        UPDATE cours set cou_name = #{couName}, cou_introduction = #{couIntroduction}, cou_type = #{couType}, cou_price = #{couPrice},
+                         cou_chile_type = #{couChileType}, cou_cata_num = #{couCataNum}, photo = #{photo} WHERE cou_id = #{couId}
+    </update>
+
+    <update id="DeleteCours" parameterType="com.zhe.common.entity.CoursEntity">
+        UPDATE cours set deleted = 1 where cou_id = #{couId}
+    </update>
+    <update id="updateCouRecoNum">
+        UPDATE cours set cou_coll_num = #{couCollNum}, cou_reco_num = #{couRecoNum} where cou_id = #{couId}
+    </update>
+    <update id="updateCouCataNum">
+        UPDATE cours set cou_cata_num = #{couCataNum} where cou_id = #{couId}
+    </update>
+    <select id="childType" resultType="com.zhe.common.entity.CouTypeSonEntity">
+        SELECT cts.id,cts.cou_parent_type,cou_son_type from cou_type_son as cts
+            LEFT JOIN cours_type as ct ON ct.cou_parent_type = cts.cou_parent_type
+                                                       where cts.cou_parent_type = #{couParentType} /*通过大类搜小类*/
+    </select>
+    <select id="parentType" resultType="com.zhe.common.dto.CoursTypeDTO">
+        SELECT cou_type, cou_parent_type, photo FROM cours_type
+    </select>
+    <select id="coursType" resultType="com.zhe.common.entity.CoursTypeEntity">
+        SELECT cou_type from cours_type where cou_parent_type = #{couParentType}
+    </select>
+
+    <select id="TeaCourse" resultType="com.zhe.common.entity.CoursEntity">
+        SELECT * FROM cours where deleted = 0 LIMIT #{begin}, #{count}
+    </select>
+
+    <select id="myCours" resultType="com.zhe.common.entity.CoursEntity">
+        SELECT * FROM cours where tea_id = #{id} AND deleted = 0 LIMIT #{pageNum}, #{pageSize}
+    </select>
+    <select id="myCourseClass" resultType="com.zhe.common.entity.CoursEntity">
+        SELECT * FROM cours where cou_id in
+                                  (SELECT cou_id FROM cou_class where class_id = #{classId})
+                              AND deleted = 0 LIMIT #{pageNum}, #{pageSize}
+    </select>
+    <select id="MyCourseCount" resultType="java.lang.Integer">
+        SELECT COUNT(cou_id) from cours where tea_id = #{teaId} AND deleted = 0
+    </select>
+    <select id="coursByName" resultType="com.zhe.common.entity.CoursEntity">
+        SELECT * FROM cours where cou_name like '%${couName}%' AND deleted = 0 LIMIT #{pageNum}, #{pageSize}
+    </select>
+    <select id="CoursByNameNum" resultType="java.lang.Integer">
+        SELECT COUNT(cou_id) FROM cours where cou_name like '%${couName}%' AND deleted = 0
+    </select>
+    <select id="CoursByIdNum" resultType="java.lang.Integer">
+        SELECT COUNT(cou_id) FROM cours where cou_id = 1 AND deleted = 0
+    </select>
+    <select id="likeCours" resultType="com.zhe.common.entity.CoursEntity">
+        SELECT * FROM cours where tea_id = #{teaId}
+                              AND cou_name LIKE '%${couName}%'
+                              AND deleted = 0 LIMIT #{pageNum}, #{pageSize}
+
+    </select>
+    <select id="MyCourseCountByNameNum" resultType="java.lang.Integer">
+        SELECT COUNT(cou_id) FROM cours where tea_id = #{teaId} AND cou_name LIKE '%${couName}%' AND deleted = 0
+    </select>
+    <select id="GetAllCoursByIdNum" resultType="java.lang.Integer">
+        SELECT COUNT(cou_id) FROM cours where cou_id = #{couId} AND deleted = 0
+    </select>
+    <select id="GetMyCoursByIdNum" resultType="java.lang.Integer">
+        SELECT COUNT(cou_id) FROM cours where cou_id = #{couId} AND deleted = 0 AND tea_id = #{teaId}
+    </select>
+    <select id="GetAllCoursNum" resultType="java.lang.Integer">
+        SELECT COUNT(cou_id) from cours where deleted = 0
+    </select>
+    <select id="couTypeSon" resultType="com.zhe.common.entity.CouTypeSonEntity">
+        SELECT id, cou_son_type from cou_type_son where id = #{couChileType}
+    </select>
+    <select id="CourseTypeToList" resultType="com.zhe.common.dto.CoursTypeListDTO">
+        SELECT cou_type, cou_chile_type from cours where cou_id = #{couId}
+    </select>
+    <select id="GetAllChapterNum" resultType="java.lang.Integer">
+        SELECT COUNT(course_id) FROM chapter where course_id = #{couId} AND is_deleted = 0
+    </select>
+
+    <select id="getAllCourseByType" resultType="com.zhe.common.entity.CoursEntity">
+        SELECT * FROM cours where cou_type = #{couType} AND deleted = 0
+    </select>
+    <select id="coursList" resultType="com.zhe.common.entity.CoursEntity">
+        SELECT * FROM cours where cou_id in
+                                  (SELECT cou_id from cou_class where class_id = #{classId})
+                              AND deleted = 0 limit #{pageNum}, #{pageSize}
+    </select>
+    <select id="coursList_1" resultType="com.zhe.common.entity.CoursEntity">
+        SELECT * FROM cours where cou_id in
+                                  (SELECT cou_id from cou_class where class_id = #{classId})
+                              AND deleted = 0
+    </select>
+    <select id="getAllCoursMapNum" resultType="java.lang.Integer">
+        SELECT COUNT(cou_id) FROM cours where cou_id in (SELECT cou_id from cou_class where class_id = #{classId}) AND deleted = 0
+    </select>
+    <select id="getCourseDTO" resultType="com.zhe.common.dto.CourseDTO">
+        SELECT cou_id, cou_name, tea_id FROM cours WHERE cou_id = #{couId} AND deleted = 0
+    </select>
+    <select id="getClassAllCourse" resultType="java.lang.Long">
+        SELECT cou_id FROM cou_class where class_id = #{classId}
+    </select>
+
+    <select id="getAllCourse" resultType="com.zhe.common.dto.CourseDTO">
+        SELECT cou_id, cou_name, tea_id from cours where deleted = 0
+            <foreach collection="couId" item="item" separator=" ">
+                AND cou_id &lt;&gt; #{item}
+            </foreach>
+    </select>
+    <select id="getAllCourseByPractice" resultType="com.zhe.common.dto.CourseDTO">
+        SELECT cou_id, cou_name, tea_id FROM cours where deleted = 0
+    </select>
+</mapper>

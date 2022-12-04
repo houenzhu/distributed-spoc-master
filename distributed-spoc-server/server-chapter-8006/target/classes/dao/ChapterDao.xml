@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhe.spoc.distributed.mapper.ChapterMapper">
+    <insert id="insertChapter" parameterType="com.zhe.common.entity.ChapterEntity">
+        INSERT INTO chapter (cha_id, cha_index, cha_title, course_id, cha_url, cha_time)
+        VALUES (#{chaId}, #{chaIndex}, #{chaTitle}, #{courseId}, #{chaUrl}, #{chaTime})
+    </insert>
+    <insert id="insertChapterComment">
+        INSERT INTO course_chapter_appraise (cou_id, cha_id, stu_id, cha_appraise)
+        VALUES (#{couId}, #{chaId}, #{stuId}, #{chaAppraise})
+    </insert>
+    <update id="RemoveChapter" parameterType="com.zhe.common.entity.ChapterEntity">
+        UPDATE chapter set is_deleted = 1 where cha_id = #{chaId}
+    </update>
+
+    <update id="UpdateChapter" parameterType="com.zhe.common.entity.ChapterEntity">
+        UPDATE chapter set cha_title = #{chaTitle}, cha_url = #{chaUrl}, cha_time = #{chaTime} where cha_id = #{chaId}
+    </update>
+    <update id="updateChapterOrder">
+        UPDATE chapter set cha_index = CASE
+            <foreach collection="list" item="item" index="index">
+                WHEN cha_id = #{item.chaId} THEN #{item.chaIndex}
+            </foreach>
+             END
+             WHERE cha_id IN
+            <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+                #{item.chaId}
+            </foreach>
+    </update>
+    <update id="reorderClassify_1">
+        UPDATE chapter SET cha_index = cha_index + #{value} WHERE cha_index BETWEEN #{from} AND #{to}
+    </update>
+    <select id="reorderClassify">
+        UPDATE chapter SET cha_index = cha_index + #{value}
+                       WHERE cha_index BETWEEN #{from} AND #{to}
+                         AND course_id = #{courseId}
+    </select>
+
+    <select id="chapterList" resultType="com.zhe.common.entity.ChapterEntity">
+        SELECT * FROM chapter where is_deleted = 0
+    </select>
+    <select id="studentProgess" resultType="com.zhe.common.entity.LearningProgressEntity">
+        SELECT * FROM learning_progress where cou_id = #{couId}
+                                          AND class_id = #{classId}
+                                          AND stu_id = #{stuId}
+                                          AND cha_id = #{chaId}
+    </select>
+    <select id="chaTime" resultType="java.lang.Integer">
+        SELECT cha_time from chapter where cha_id = #{chaId}
+    </select>
+    <select id="selectAllByClassId" resultType="com.zhe.common.entity.StuClassEntity">
+        SELECT * FROM stu_class where class_id = #{classId} AND deleted = 0
+    </select>
+    <select id="selectAllStudent" resultType="com.zhe.common.entity.StudentEntity">
+        SELECT s.stu_id, stu_name, stu_study_time, stu_score FROM student AS s
+            LEFT JOIN stu_class AS sc on sc.stu_id = s.stu_id where sc.class_id = #{classId}
+    </select>
+    <select id="CourseChapter" resultType="com.zhe.common.entity.ChapterEntity">
+        SELECT * FROM chapter where course_id = #{course_id} AND is_deleted = 0 ORDER BY cha_index
+    </select>
+    <select id="ChapterByName" resultType="com.zhe.common.entity.ChapterEntity">
+        SELECT * FROM chapter where cha_title LIKE CONCAT('%',#{chaTitle},'%') AND course_id = #{courseId} AND is_deleted = 0
+    </select>
+    <select id="getLastChapter" resultType="com.zhe.common.entity.ChapterEntity">
+        SELECT * FROM chapter where course_id = #{course_id} AND is_deleted = 0 ORDER BY cha_index
+    </select>
+    <select id="getChapterByChaIndex" resultType="com.zhe.common.entity.ChapterEntity">
+        SELECT * FROM chapter where cha_index = #{chaIndex} AND course_id = #{courseId} AND is_deleted = 0
+    </select>
+    <select id="totalTime" resultType="java.lang.Integer">
+        SELECT SUM(cha_time) FROM chapter where course_id = #{courseId}
+    </select>
+    <select id="chaIndexArr">
+        SELECT cha_index FROM chapter where course_id = #{courseId} AND is_deleted = 0
+    </select>
+    <select id="AllCourse" resultType="com.zhe.common.entity.StuCourseEntity">
+        SELECT cou_id FROM stu_cou where stu_id = #{stuId}
+    </select>
+    <select id="AllChapterTime" resultType="java.lang.Integer">
+        SELECT sum(cha_time) FROM chapter where course_id = #{courseId} AND is_deleted = 0
+    </select>
+    <select id="AllStuChapterTime" resultType="java.lang.Integer">
+        SELECT sum(time) FROM learning_progress where cou_id = #{courseId} AND stu_id = #{stuId}
+    </select>
+    <select id="StudentPercent" resultType="java.lang.Double">
+        SELECT CONCAT(ROUND(#{stuTime} / #{TotalDuration} * 100, 2))
+    </select>
+
+</mapper>

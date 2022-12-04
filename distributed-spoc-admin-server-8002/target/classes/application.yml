@@ -1,0 +1,12 @@
+server:
+  port: 8002
+management:
+  endpoint:
+    health:
+      show-details: always
+spring:
+  cloud:
+    nacos:
+      server-addr: localhost:8848
+  application:
+    name: admin-server

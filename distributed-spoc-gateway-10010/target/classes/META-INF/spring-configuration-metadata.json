@@ -1,0 +1,17 @@
+{
+  "groups": [
+    {
+      "name": "secure.ignore",
+      "type": "com.zhe.spoc.distributed.gateway.config.IgnoreUrlsConfig",
+      "sourceType": "com.zhe.spoc.distributed.gateway.config.IgnoreUrlsConfig"
+    }
+  ],
+  "properties": [
+    {
+      "name": "secure.ignore.urls",
+      "type": "java.util.List<java.lang.String>",
+      "sourceType": "com.zhe.spoc.distributed.gateway.config.IgnoreUrlsConfig"
+    }
+  ],
+  "hints": []
+}

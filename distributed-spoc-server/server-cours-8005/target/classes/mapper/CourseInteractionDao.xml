@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhe.spoc.distributed.mapper.CourseInteractionMapper">
+
+    <insert id="NoDataRecommend">
+        INSERT INTO course_interaction(cou_id, stu_id, recommend) VALUES (#{couId}, #{stuId}, #{Recommend})
+    </insert>
+    <insert id="NoDataCollect">
+        INSERT INTO course_interaction(cou_id, stu_id, collect) VALUES (#{couId}, #{stuId}, #{Collect})
+    </insert>
+    <insert id="NoDataHave">
+        INSERT INTO course_interaction(cou_id, stu_id, have) VALUES (#{couId}, #{stuId}, #{Have})
+    </insert>
+
+    <update id="HaveDataRecommend">
+        UPDATE course_interaction set recommend = #{Recommend} where cou_id = #{couId} and stu_id = #{stuId}
+    </update>
+    <update id="HaveDataCollect">
+        UPDATE course_interaction set collect = #{Collect} where cou_id = #{couId} and stu_id = #{stuId}
+    </update>
+    <update id="HaveDataHave">
+        UPDATE course_interaction set have = #{Have} where cou_id = #{couId} AND stu_id = #{stuId}
+
+    </update>
+
+    <select id="CheckHaveData" resultType="com.zhe.common.entity.CourseInteractionEntity">
+        SELECT * FROM course_interaction where stu_id = #{stuId} AND cou_id = #{couId}
+    </select>
+
+    <select id="HaveCourse" resultType="com.zhe.common.entity.StuCourseEntity">
+        SELECT * FROM stu_cou where stu_id = #{stuId} and cou_id = #{couId}
+    </select>
+    <select id="judge" resultType="com.zhe.common.entity.CourseInteractionEntity">
+        SELECT * FROM course_interaction where stu_id = #{stuId} AND cou_id = #{couId}
+    </select>
+    <select id="checkMyCollect" resultType="com.zhe.common.entity.CourseInteractionEntity">
+        SELECT id, cou_id FROM course_interaction where stu_id = #{userId} AND collect = 1
+    </select>
+</mapper>

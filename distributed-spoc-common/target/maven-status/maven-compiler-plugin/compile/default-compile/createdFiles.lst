@@ -1,0 +1,9 @@
+com\zhe\common\entity\ClassEntity.class
+com\zhe\common\api\IErrorCode.class
+com\zhe\common\api\ResultCode.class
+com\zhe\common\entity\RoleEntity.class
+com\zhe\common\entity\StudentEntity.class
+com\zhe\common\utils\EncryptUtil.class
+com\zhe\common\entity\PermissionEntity.class
+com\zhe\common\entity\UserEntity.class
+com\zhe\common\api\CommonResult.class
