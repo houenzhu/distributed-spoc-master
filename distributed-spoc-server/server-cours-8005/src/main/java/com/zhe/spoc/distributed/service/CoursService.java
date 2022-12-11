@@ -32,7 +32,7 @@ public interface CoursService extends IService<CoursEntity> {
     int CoursByNameNum(String couName);
     List<CoursEntity> GetAllCours();
 
-    Boolean InsertCours(CoursEntity coursEntity);
+    CommonResult<?> InsertCours(CoursEntity coursEntity);
 
     Boolean updateCours(CoursEntity coursEntity);
 

@@ -232,7 +232,10 @@ public class CoursServiceImpl extends ServiceImpl<CoursMapper,CoursEntity> imple
     // 新增课程
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Boolean InsertCours(CoursEntity coursEntity) {
+    public CommonResult<?> InsertCours(CoursEntity coursEntity) {
+        if (coursEntity == null) {
+            return CommonResult.failed("课程信息不能为空!");
+        }
         UserEntity user = (UserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Integer teaId = user.getId();
         coursEntity.setTeaId(teaId);
@@ -245,7 +248,7 @@ public class CoursServiceImpl extends ServiceImpl<CoursMapper,CoursEntity> imple
         redisTemplate.delete(keys1);
         redisTemplate.delete(ALL_COURS_NUM_KEY);
         redisTemplate.delete(MY_COURSE_PAGE_NUM_KEY);
-        return aBoolean;
+        return CommonResult.success("新增成功!");
     }
 
     // 修改课程信息

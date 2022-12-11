@@ -78,12 +78,8 @@ public class CoursController {
     // 新增课程信息
     @PostMapping("/InsertCours")
     @PreAuthorize("hasAuthority('teacher')")
-    public CommonResult<Boolean> InsertCours(@RequestBody CoursEntity coursEntity) {
-        Boolean aBoolean = coursService.InsertCours(coursEntity);
-        if (!aBoolean) {
-            return CommonResult.failed(ResultCode.FAILED, "新增失败");
-        }
-        return CommonResult.success(true);
+    public CommonResult<?> InsertCours(@RequestBody CoursEntity coursEntity) {
+        return coursService.InsertCours(coursEntity);
     }
 
     // 修改课程信息
