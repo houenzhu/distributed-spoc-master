@@ -233,6 +233,9 @@ public class CoursServiceImpl extends ServiceImpl<CoursMapper,CoursEntity> imple
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Boolean InsertCours(CoursEntity coursEntity) {
+        UserEntity user = (UserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Integer teaId = user.getId();
+        coursEntity.setTeaId(teaId);
         // 先操作数据库
         Boolean aBoolean = coursMapper.InsertCours(coursEntity);
         // 删除redis中的分页信息
