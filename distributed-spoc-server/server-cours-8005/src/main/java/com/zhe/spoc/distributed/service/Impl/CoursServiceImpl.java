@@ -239,6 +239,8 @@ public class CoursServiceImpl extends ServiceImpl<CoursMapper,CoursEntity> imple
         UserEntity user = (UserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Integer teaId = user.getId();
         coursEntity.setTeaId(teaId);
+        // 设置章节数为0
+        coursEntity.setCouCataNum(0);
         // 先操作数据库
         Boolean aBoolean = coursMapper.InsertCours(coursEntity);
         // 删除redis中的分页信息
