@@ -244,13 +244,17 @@ public class CoursServiceImpl extends ServiceImpl<CoursMapper,CoursEntity> imple
         // 先操作数据库
         Boolean aBoolean = coursMapper.InsertCours(coursEntity);
         // 删除redis中的分页信息
+        removeKey();
+        return CommonResult.success("新增成功!");
+    }
+
+    private void removeKey() {
         Set<String> keys = redisTemplate.keys(DELETE_COURSE_PAGE_KEY + "*");
         Set<String> keys1 = redisTemplate.keys(COURSE_TEA_PAGE_KEY + "*");
         redisTemplate.delete(keys);
         redisTemplate.delete(keys1);
         redisTemplate.delete(ALL_COURS_NUM_KEY);
         redisTemplate.delete(MY_COURSE_PAGE_NUM_KEY);
-        return CommonResult.success("新增成功!");
     }
 
     // 修改课程信息
@@ -278,12 +282,7 @@ public class CoursServiceImpl extends ServiceImpl<CoursMapper,CoursEntity> imple
         // 先更新数据库
         Boolean aBoolean = coursMapper.DeleteCours(couId);
         // 删除redis中的分页信息
-        Set<String> keys = redisTemplate.keys(DELETE_COURSE_PAGE_KEY + "*");
-        Set<String> keys1 = redisTemplate.keys(COURSE_TEA_PAGE_KEY + "*");
-        redisTemplate.delete(keys);
-        redisTemplate.delete(keys1);
-        redisTemplate.delete(ALL_COURS_NUM_KEY);
-        redisTemplate.delete(MY_COURSE_PAGE_NUM_KEY);
+        removeKey();
         redisTemplate.delete(COURSE_ID_KEY + couId);
         return aBoolean;
     }
