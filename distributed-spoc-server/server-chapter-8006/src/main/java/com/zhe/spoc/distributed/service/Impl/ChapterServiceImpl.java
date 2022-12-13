@@ -264,6 +264,20 @@ public class ChapterServiceImpl extends ServiceImpl<ChapterMapper, ChapterEntity
     }
 
     /**
+     * 获取该章节的视频地址
+     * @param chaId
+     * @return
+     */
+    @Override
+    public CommonResult<?> getVideo(Long chaId) {
+        if (chaId == null) {
+            return CommonResult.failed("章节id不能为空");
+        }
+        String url = chapterMapper.getVideo(chaId);
+        return CommonResult.success(url);
+    }
+
+    /**
      * 快速排序
      * @param arr
      * @param low

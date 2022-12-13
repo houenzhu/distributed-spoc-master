@@ -80,4 +80,6 @@ public interface ChapterMapper extends BaseMapper<ChapterEntity> {
     Integer AllChapterTime(@Param("courseId") Long courseId);
 
     Integer AllStuChapterTime(@Param("courseId") Long courseId, @Param("stuId") Integer stuId);
+
+    String getVideo(@Param("chaId") Long chaId);
 }

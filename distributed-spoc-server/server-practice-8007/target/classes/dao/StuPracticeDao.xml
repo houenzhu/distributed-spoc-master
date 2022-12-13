@@ -7,7 +7,7 @@
     </delete>
 
     <select id="myPractice" resultType="com.zhe.common.entity.PracticeEntity">
-        SELECT p.pra_id, pra_time, pra_name, pra_site, cou_id, pra_main, tea_id FROM practice AS p
+        SELECT DISTINCT p.pra_id, p.pra_time, p.pra_name, p.pra_site, p.cou_id, p.pra_main, p.tea_id FROM practice AS p
             LEFT JOIN stu_practice AS sp ON sp.pra_id = p.pra_id where sp.pra_id in
                                                                        (SELECT pra_id FROM stu_practice where stu_id = #{stuId})
     </select>

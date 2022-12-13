@@ -15,6 +15,7 @@ import com.zhe.spoc.distributed.utils.CacheClient;
 import com.zhe.spoc.distributed.mapper.CoursMapper;
 import com.zhe.spoc.distributed.client.ServerUserClient;
 import com.zhe.spoc.distributed.service.CoursService;
+import lombok.Synchronized;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.ListUtils;

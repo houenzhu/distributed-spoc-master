@@ -45,4 +45,6 @@ public interface ChapterService extends IService<ChapterEntity> {
     void reorder(Map<String, Object> params,Long courseId);
 
     CommonResult<?> StudentCoursePercent(Integer stuId);
+
+    CommonResult<?> getVideo(Long chaId);
 }

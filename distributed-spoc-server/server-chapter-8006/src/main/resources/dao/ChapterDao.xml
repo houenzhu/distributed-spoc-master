@@ -85,5 +85,8 @@
     <select id="StudentPercent" resultType="java.lang.Double">
         SELECT CONCAT(ROUND(#{stuTime} / #{TotalDuration} * 100, 2))
     </select>
+    <select id="getVideo" resultType="java.lang.String">
+        SELECT cha_url FROM chapter where cha_id = #{chaId}
+    </select>
 
 </mapper>

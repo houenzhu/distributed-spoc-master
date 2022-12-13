@@ -144,4 +144,15 @@ public class ChapterController {
         return CommonResult.success(null,"ok");
     }
 
+    /**
+     * 获取该章节的视频地址
+     * @param chaId
+     * @return
+     */
+    @GetMapping("/getVideo")
+    @PreAuthorize("hasAnyAuthority('teacher', 'student')")
+    public CommonResult<?> getVideo(@RequestParam Long chaId) {
+        return chapterService.getVideo(chaId);
+    }
+
 }
